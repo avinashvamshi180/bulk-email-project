@@ -1,19 +1,21 @@
 follow the steps to understand the execution of this project:
 
-<u>Step 1: Setting Up S3 for CSV File Uploads</u>
+----------------------------------------------------------------
+Step 1: Setting Up S3 for CSV File Uploads
 create a designated S3 bucket where you'll upload a CSV file containing email addresses and message content, for mass emailing.
 Bucket Name: ses-bucket-for-mass-emailing
 
+-----------------------------------------------------------------
 Step 2: Creating and Verifying SES Identities
 create SES identities for both sender and receiver email addresses. This involves verifying domain ownership and email address verification within the SES console. These identities are essential for maintaining a high deliverability rate and ensuring that your emails reach the intended recipients.
 
+(Note: For new Amazon SES users — If you have not yet applied for a sending limit increase, then you are still in the sandbox environment, and you can only send email to addresses that have been verified. To verify a new email address or domain, see the Identity Management section of the Amazon SES console. If you want to send bulk emails you need to increase your limit through support team of AWS and also verify your source domain)
 
-(Note: For new Amazon SES users — If you have not yet applied for a sending limit increase, then you are still in the sandbox environment, and you can only send email to addresses that have been verified. To verify a new email address or domain, see the Identity Management section of the Amazon SES console)
-
+------------------------------------------------------------------
 Step 3: Setting Up AWS Lambda with SES
 Create an AWS Lambda function and configure it to access SES. Ensure that your Lambda function has the necessary permissions to send emails through SES. This step is crucial for establishing a secure and reliable connection between your Lambda function and the email service.
 
-Create a Role for Lambda:
+(a) Create a Role for Lambda:
 create an IAM (Identity and Access Management) role that grants the required permissions for lambda to perform the necessary functions, with the following permissions.
 AmazonS3ReadOnlyAccess
 AmazonSESFullAccess
@@ -21,7 +23,7 @@ CloudWatchLogsFullAccess
 
 These policies grant the Lambda function read access to S3, full access to SES, and full access to CloudWatch Logs for monitoring purposes.
 
-Step 4: Create a Lambda Function to send Emails
+(b) Create a Lambda Function to send Emails
 This function will be responsible for handling the logic of your mass email campaign.
 (a)	Setting S3 Event Triggers
 To make the process seamless, configure an S3 event trigger that monitors the designated bucket for new CSV file uploads. Whenever a new file is detected, this trigger will automatically invoke your Lambda function, initiating the email-sending process.
